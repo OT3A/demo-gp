@@ -8,7 +8,7 @@ from ultralytics import YOLO
 import cv2
 import random
 
-st.set_page_config(page_title="Car accident Detection", page_icon=":sos:")
+# st.set_page_config(page_title="Car accident Detection", page_icon=":sos:")
 
 # Load your deep learning model
 def load_model():
@@ -46,6 +46,7 @@ def process_video(video_file):
 
 # Define Streamlit app
 def main():
+    st.set_page_config(page_title="Car accident Detection", page_icon=":sos:")
     st.title("Deep Learning Video Processing")
     
     # File upload section
