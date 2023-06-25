@@ -10,7 +10,8 @@ import random
 
 # Load your deep learning model
 def load_model():
-    model = YOLO('n1.pt')
+    # model = YOLO('n1.pt')
+    model = YOLO('m2.pt')
 #     model = YOLO('x1.pt')
     return model
 
