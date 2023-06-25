@@ -8,7 +8,7 @@ from ultralytics import YOLO
 import cv2
 import random
 
-st.set_page_config(page_title="Car accident Detection", page_icon="&#127384")
+st.set_page_config(page_title="Car accident Detection", page_icon=":sos:")
 
 # Load your deep learning model
 def load_model():
