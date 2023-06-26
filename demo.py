@@ -84,7 +84,7 @@ def main():
     st.sidebar.info("This is a demo app for deep learning video processing to detect accidents in roads with YOLOv8 model.")
     st.sidebar.write('**Developed by**')
     st.sidebar.write('*Tarek Ashraf Mahmoud*')
-    st.sidebar.write('*Osama Anter Afifi*')
+    st.sidebar.write('*Osama Anter Mohamed*')
     st.sidebar.write('*Ahmed Mohamed Ali*')
     st.sidebar.write('*Ahmed Mohamed Ibrahim*')
     st.sidebar.write('*Adham Mohamed Tawfik*')
