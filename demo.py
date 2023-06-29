@@ -11,7 +11,7 @@ import random
 
 # Load your deep learning model
 def load_model():
-    model = YOLO('l1.pt')
+    model = YOLO('m1.pt')
     return model
 
 # Define a function to process the uploaded video
