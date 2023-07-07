@@ -39,7 +39,7 @@ def process_video(video_file):
         if len(res[0].boxes) == 0 and is_first:
             # t = time.localtime()
             # current_time = time.strftime("%H:%M:%S", t)
-            tz_EG = pytz.timezone('Egypt/Cairo')
+            tz_EG = pytz.timezone('Africa/Cairo')
             datetime_EG = datetime.now(tz_EG).strftime("%H:%M:%S")
             is_first = False
         
