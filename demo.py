@@ -36,9 +36,7 @@ def process_video(video_file):
     while ret:
         res = model.predict(source=frame, save=False, conf=0.5)
         print(res[0])
-        if len(res[0].boxes) == 0 and is_first:
-            # t = time.localtime()
-            # current_time = time.strftime("%H:%M:%S", t)
+        if len(res[0].boxes) != 0 and is_first:
             tz_EG = pytz.timezone('Africa/Cairo')
             datetime_EG = datetime.now(tz_EG).strftime("%H:%M:%S")
             is_first = False
