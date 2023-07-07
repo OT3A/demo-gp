@@ -1,12 +1,14 @@
 import streamlit as st
+import torch
 import tempfile
 import os
 from PIL import Image
-import torch
-import torchvision.transforms as transforms
 from ultralytics import YOLO
 import cv2
 import random
+from datetime import datetime
+import pytz
+import time
 
 
 # Load your deep learning model
@@ -18,13 +20,15 @@ def load_model():
 def process_video(video_file):
     # Load your model
     model = load_model()
+    is_first = True
+    current_time = None
     
     video = cv2.VideoCapture(video_file)
     frame_width = int(video.get(3))
     frame_height = int(video.get(4))
     size = (frame_width, frame_height)
     fps = 30
-    fourcc = cv2.VideoWriter_fourcc(*'MP4V')
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     output_path = 'cv2output.mp4'
     result = cv2.VideoWriter(output_path, fourcc, fps, size)
 
@@ -32,6 +36,11 @@ def process_video(video_file):
     while ret:
         res = model.predict(source=frame, save=False, conf=0.5)
         print(res[0])
+        if len(res[0].boxes) == 0 and is_first:
+            t = time.localtime()
+            current_time = time.strftime("%H:%M:%S", t)
+            is_first = False
+        
         res_img = res[0].plot()
         result.write(res_img)
         ret, frame = video.read()
@@ -39,7 +48,7 @@ def process_video(video_file):
     video.release()
     result.release()
     
-    return True
+    return True, current_time
 
 # Define Streamlit app
 def main():
@@ -63,7 +72,7 @@ def main():
         # Process the video
         if st.button("Process Video"):
             with st.spinner(text='In progress'):
-            	output_video = process_video(video_path)
+            	output_video, accident_time = process_video(video_path)
             	st.success('Detection finished; saving video...')
             	output_path = random.randint(0, 1000)
             	os.system(f'ffmpeg -i cv2output.mp4 -vcodec libx264 output/{output_path}.mp4')
@@ -73,6 +82,8 @@ def main():
             	while not os.path.isfile(f'output/{output_path}.mp4'):
             		pass
             	st.header("Processed Video")
+            	if accident_time != None:
+            	    st.error(f'SOS! accident detected from camera {output_path} at {accident_time}')
             	video_bytes = open(f'output/{output_path}.mp4', 'rb').read()
             	st.video(video_bytes)
         
@@ -81,7 +92,7 @@ def main():
     st.sidebar.info("This is a demo app for deep learning video processing to detect accidents in roads with YOLOv8 model.")
     st.sidebar.write('**Developed by**')
     st.sidebar.write('*Tarek Ashraf Mahmoud*')
-    st.sidebar.write('*Osama Anter Mohamed*')
+    st.sidebar.write('*Osama Anter Afifi*')
     st.sidebar.write('*Ahmed Mohamed Ali*')
     st.sidebar.write('*Ahmed Mohamed Ibrahim*')
     st.sidebar.write('*Adham Mohamed Tawfik*')
