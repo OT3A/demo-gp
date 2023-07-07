@@ -37,8 +37,10 @@ def process_video(video_file):
         res = model.predict(source=frame, save=False, conf=0.5)
         print(res[0])
         if len(res[0].boxes) == 0 and is_first:
-            t = time.localtime()
-            current_time = time.strftime("%H:%M:%S", t)
+            # t = time.localtime()
+            # current_time = time.strftime("%H:%M:%S", t)
+            tz_EG = pytz.timezone('Egypt/Cairo')
+            datetime_EG = datetime.now(tz_EG).strftime("%H:%M:%S")
             is_first = False
         
         res_img = res[0].plot()
@@ -48,7 +50,7 @@ def process_video(video_file):
     video.release()
     result.release()
     
-    return True, current_time
+    return True, datetime_EG
 
 # Define Streamlit app
 def main():
